@@ -44,3 +44,13 @@ The following is a JSON representation of the resource.
 }
 ```
 
+## Interaction between Graph APIs 
+When you use multiple Graph API channels to manage Windows Updates for a device, edits from one Graph API can overwrite edits from the other without awareness. This can create configurations for Windows Updates that are temporary as well as confuse the expected update behaviors. 
+
+As a best practice, use only one Graph API channel to manage the same resources for Windows Updates. The available channels include: 
+- **Microsoft Intune or the Device updates Graph API** -   When you use Intune through the Microsoft Endpoint Manager admin center, Intune uses the Graph API for device updates (beginning with this article) to manage Windows Updates. The results are the same as when you use this Graph API directly, without the Intune UI.  Through this Graph API, the configurations and edits for windows updates that get stored in the Windows Update service are associated with Intune. This association is used to identify and display details and status back to Intune. 
+
+- **WUfB-DS Graph API** ([Windows Update for Business deployment service Graph API](https://docs.microsoft.com/windows/deployment/update/deployment-service-overview)). The WUfB-DS Graph API is distinct from that used by Intune. The WUfB-DS Graph API doesn’t keep track of the source for edits or objects in the Windows Update service. If it overwrites objects owned by Intune, Intune won’t be aware of the change or state.
+
+If you choose to use both the Device updates Graph API and the WUfB-DS Graph API, we recommend that you keep the policies and deployments managed by Intune independent from those managed by WUfB-DS Graph API.
+
